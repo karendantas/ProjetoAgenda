@@ -5,15 +5,16 @@ using namespace std;
 
 //variaveis globais
     const int maxli=100, maxcol=2;
-    int op, linha=0, coluna=1;
-    int nlinha=1, ncoluna=2;
+    int op, linha=0, cont=0;
     string contato[maxli][maxcol];
     string nome[50], telefone[50];
+    string ma2[maxli][maxcol];
 
 //declarando funcoes
-void cadastrar(string x[maxli][maxcol],int tam_linha, int tam_coluna);
+void cadastrar(string x[maxli][maxcol]);
 void listar();
-void procurar(string y[][2]);
+void procurarnome(string y[][2]);
+void pegarvalores();
 //
 
 
@@ -40,28 +41,25 @@ int main (){
 
         switch(op){
             case 1:
-          
-                while(nlinha <100){
-                        cadastrar(contato, nlinha, ncoluna);
-                        break;
-                        nlinha++;
-                        cout << nlinha;
-                }
+                    cadastrar(contato);     
                 
                 break;
             case 2:
                 //listar();//
                 cout << endl;
-
-            for (linha = 0; linha < maxli; linha++)
-            {
+                   for (linha = 0; linha < cont; linha++){
+       
            
-            for (coluna  = 0; coluna < maxcol; coluna++)
-            {
-                     cout<<contato[2][coluna];
-            }
-            }
+                        cout<<contato[linha][0] << contato[linha][1];
+                        cout << endl;
+
+                   }
+                 
+          
                 break;
+            case 3:
+            pegarvalores();
+            break;
 
             case 8:
                 cout << "Saindo...";
@@ -83,35 +81,31 @@ int main (){
     return 0;
 }
 
-void cadastrar(string x[maxli][maxcol], int tam_linha, int tam_coluna){
+void cadastrar(string x[maxli][maxcol]){
 
-   
+
 
     fstream arquivo;
     arquivo.open("Agenda2023.txt", ios::out | ios::app);
     
-    
 
         cout<< "Digite seu nome:"<<endl;
         
-        for (linha = 0; linha < tam_linha; linha++)
-        {
-            cout << "Digite seu numero:"<<endl;
-            for (coluna  = 0; coluna < tam_coluna; coluna++)
-            {
-            cin>>x[linha][coluna];
-
-            arquivo << x[linha][coluna]<<" ";
-            arquivo << endl;
-            if(tam_linha > tam_linha+1){
-                break;
-            }
-               
-            }
+    
+        for (linha = 0; linha < 1; linha++){
+       
+           
+            cin>>x[cont][0];
+            arquivo << x[cont][0]<<endl;
             
             
-            cout << endl;
-        }      
+            cout << "Digite seu telefone:"<<endl;
+            cin>> x[cont][1];
+            arquivo << x[cont][1]<<endl;
+        
+        }
+           cont++;
+      
         
         
     arquivo.close();
@@ -134,8 +128,51 @@ void listar (){
     
 }
 
+void pegarvalores (){
+    int cont2 = 1, cont3=0;
+    
+    string line;
+    fstream arquivo3;
+
+    arquivo3.open("Agenda2023.txt",ios::in);
+    while (!arquivo3.eof()){
+        getline(arquivo3, line);
+        cont2++;
+
+        if (cont2%2 == 0){
+            ma2[cont3][0]=line;
+
+        }else if(cont2%2 != 0){
+            ma2[cont3][1]=line;
+            cont3++;
+        }
+    }
+    
+    for (int i = 0; i <2; i++)
+    {
+        cout << ma2[i][0]<< endl;
+        cout << ma2[i][1] << endl;
+    }
+    
+    
+}
+
+
 //funcao de procurar
 
+void procurarnome (string y[][maxcol]){
+
+     for (linha = 0; linha < 1; linha++){    
+            cin>>y[cont][0];
+            linha++;
+            cout << "Digite seu telefone:"<<endl;
+            cin>> y[cont][1];
+
+        
+        }
+           cont++;
+
+}
 
 
 
