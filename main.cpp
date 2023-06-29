@@ -36,7 +36,7 @@ int main (){
         cout << "|      Digite sua opcao      |" <<endl;
         cin >> op;
 
-        
+        pegarvalores();
         //Switch case do menu
 
         switch(op){
@@ -58,7 +58,7 @@ int main (){
           
                 break;
             case 3:
-            pegarvalores();
+            procurarnome(contato);
             break;
 
             case 8:
@@ -125,7 +125,7 @@ void listar (){
         cout << line<< " ";
         cout << endl;
     }
-    
+    arquivo2.close();
 }
 
 void pegarvalores (){
@@ -154,7 +154,7 @@ void pegarvalores (){
         cout << ma2[i][1] << endl;
     }
     
-    
+    arquivo3.close();
 }
 
 
@@ -163,13 +163,28 @@ void pegarvalores (){
 void procurarnome (string y[][maxcol]){
 
      for (linha = 0; linha < 1; linha++){    
-            cin>>y[cont][0];
-            linha++;
-            cout << "Digite seu telefone:"<<endl;
-            cin>> y[cont][1];
+            
+            cout << "Digite o nome do contato que deseja procurar:"<<endl;
+            cin>> y[cont][0];
+            }
 
-        
-        }
+            bool veri = false;
+            pegarvalores();
+            for (int i = 0; i <100; i++)
+            {
+                if (y[cont][maxcol] == ma2[i][maxcol]){
+                    veri =  true;
+                
+                }else{
+                    veri = false;
+                }
+            }
+            
+            if(veri == true){
+                cout << "Contato existente";
+            } else if (veri == false){
+                cout << "Contato não encontrado";
+            }
            cont++;
 
 }
