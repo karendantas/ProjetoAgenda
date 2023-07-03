@@ -18,6 +18,9 @@ void procurarnumero();
 void pegarvalores();
 void excluiragenda();
 void quantidadecontatos();
+void alterarcontato ();
+
+void apagarLinhaArquivo( int linhaAApagar);
 //......................
 
 
@@ -67,7 +70,7 @@ int main (){
 
             case 5:
 
-            procurarnome();
+            alterarcontato ();
             break;
 
             case 6:
@@ -135,8 +138,8 @@ void listar (){
     arquivo3.open("Agenda2023.txt",ios::in);
   
     pegarvalores();
-    
-    for (int i = 0; i <100; i++)
+    quantidadecontatos ();
+    for (int i = 0; i <quanticontatos; i++)
     {
         cout << ma2[i][0]<<" ";
         cout << ma2[i][1];
@@ -176,7 +179,7 @@ void pegarvalores (){
 void procurarnome (){
         cout << "Digite o nome do contato que deseja procurar:"<<endl;
         cin>> nome;
-    pegarvalores();
+
      int procura=1, reprocura=0;
             for (int i = 0; i <100; i++)
             {
@@ -200,13 +203,13 @@ void procurarnome (){
 void procurarnumero(){
         cout << "Digite o número do contato que deseja procurar:"<<endl;
         cin>> num;
-    pegarvalores();
+
      int procura=1, reprocura=0;
             for (int i = 0; i <100; i++)
             {
                 if (num == ma2[i][1]){
                     procura=0;
-                    cout << "Número existente"<<endl;
+                    cout << "O número existe na agenda"<<endl;
                     cout << ma2[i][1]<<endl;
                 
                 }else{
@@ -242,5 +245,89 @@ void quantidadecontatos (){
 
 cout << "A quantidade atual de contatos na agenda é de: "<< quanticontatos/2<<endl;
     arquivo6.close();
+
+}
+
+//funcao de alterar contato
+void alterarcontato (){
+        string opcao;
+
+             
+       
+        cout << "Deseja alterar o nome ou numero do contato?[nome/numero]"<<endl;
+        cin>> opcao;
+
+
+    if(opcao ==  "nome" || opcao == "Nome"){     
+     int procura=1, reprocura=0, contlinha=1;
+     cout << "Digite o nome do contato que deseja alterar: ";
+     cin >> nome;
+            for (int i = 0; i <100; i++)
+            {
+                if (nome == ma2[i][0]){
+                    procura=0;
+                    
+                    contlinha=i;
+
+                }else{
+                    reprocura =1;
+                }
+            } 
+
+                  
+
+                    
+             if (reprocura == 1 && procura ==1 ){
+                cout << "Contato não encontrado" <<endl;
+             }
+                    //cout << "Digite a alteração que deseja fazer no nome:"<<endl;
+                    //cin>> alterarnome;
+                  
+                    
+             apagarLinhaArquivo(contlinha);
+                    
+                 
+            
+                
+    }
+}
+
+
+void apagarLinhaArquivo(int linhaAApagar) {
+    ifstream arquivoOriginal("Agenda2023.txt");
+    if (!arquivoOriginal) {
+        cout << "Erro ao abrir o arquivo de entrada." << endl;
+        return;
+    }
+
+    ofstream arquivoTemp("arq2.txt", ios::app);
+    if (!arquivoTemp) {
+        cout << "Erro ao criar o arquivo temporário." << endl;
+        arquivoOriginal.close();
+        return;
+    }
+
+    string linha;
+    int linhaAtual = 1;
+    while (getline(arquivoOriginal, linha)) {
+        if (linhaAtual != linhaAApagar) {
+            arquivoTemp << linha <<endl;
+        }
+        linhaAtual++;
+    }
+
+    arquivoOriginal.close();
+
+    string alterarnome;
+   
+    cout << "Digite a alteração que deseja fazer no nome: "<< endl;
+    cin >> alterarnome;
+
+    arquivoTemp<<alterarnome;
+    arquivoTemp.close();
+
+   //remove("Agenda2023.txt");
+    //rename("arq2.txt", "Agenda2023.txt");
+
 
 }
