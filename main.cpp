@@ -20,8 +20,7 @@ void pegarvalores();
 void excluiragenda();
 void quantidadecontatos();
 void alterarcontato ();
-void adicionarLinhaArquivo(string novaLinha);
-void apagarLinhaArquivo( int linhaAApagar);
+void retirarlinhas (int numlinhas) ;
 //......................
 
 
@@ -229,9 +228,9 @@ void procurarnumero(){
 //função para escluir a agenda
 void excluiragenda(){
     fstream arquivoatual("Agenda2023.txt", ios::out );
-    fstream novoarq("novo.txt", ios::out);
+  
     remove("Agenda2023.txt");
-    rename("novo.txt","Agenda2023.txt");
+
 
 }
 
@@ -255,15 +254,10 @@ cout << "A quantidade atual de contatos na agenda é de: "<< quanticontatos/2<<e
 
 }
 
-//funcao de alterar contato
+//funcao de alterar contato(alterar nome  e numero)
 void alterarcontato (){
-        string opcao;
-
-        cout << "Deseja alterar o nome ou numero do contato?[nome/numero]"<<endl;
-        cin>> opcao;
-
-    if(opcao ==  "nome" || opcao == "Nome"){     
-     int procura=1, reprocura=0, contlinha, contprocura=1;
+  
+     int procura=1, reprocura=0, contlinha=0, contcoluna=1;
      string alterarnome;
      cout << "Digite o nome do contato que deseja alterar: ";
      cin >> nome;
@@ -272,47 +266,50 @@ void alterarcontato (){
                 if (nome == ma2[i][0]){
                     procura=0;
                     contlinha=i;
+                    retirarlinhas(i);
 
-                    fstream arqdit;
-                    string linha;
-                    arqdit.open("Agenda2023.txt");
-                    streampos position = arqdit.tellp();
-
-                    cout << "Digite a alteração"<<endl;
-                    cin>>alterarnome;
-    
-                    arqdit.seekp(position);
-                    arqdit <<alterarnome<<endl;
-                              
-                  arqdit.close();
                 }else{
                     reprocura =1;
                 }
             }      
              if (reprocura == 1 && procura ==1 ){
                 cout << "Nome não encontrado" <<endl;
-             }
-                       
-    }else if (opcao == "numero" || opcao == "Numero"){
-        string num;
-        int contcoluna, procura2=0, reprocura2=1;
-        cout << "Digite o numero que deseja aleterar: ";
-        cin >> num;
-        for (int i = 0; i < 100; i++)
-        {
-            if(num == ma2[i][1]){
-                contcoluna =i;
-                procura2 = 0;
-            }else {
-                procura2=1;
-            }
-        }
-        if (reprocura2 == 1 && procura2 ==1 ){
-                cout << "Número não encontrado" <<endl;
-             }
-    }
+             }                    
+    
 }
 
+void retirarlinhas (int numlinhas) {
+ fstream arquivo7;
+ fstream arqsem;
+ arqsem.open("novosemlinhas.txt", ios::out | ios::in | ios::app);
+
+ int contcoluna=1, contlinha2=2;
+ int numlinhas2=numlinhas+1;
+        string line;
+            arquivo7.open("Agenda2023.txt"), ios :: app | ios::out;
+            while (getline(arquivo7,line)){
+                if (contcoluna!=numlinhas && contcoluna != numlinhas2){
+                    arqsem<<line<<endl;
+                }
+                contcoluna++;
+                }
+                    
+                arquivo7.close();
+                arqsem.close();
+        string nomealt, numalt;
+        arqsem.open("novosemlinhas.txt", ios::out | ios::in | ios::app);
+        cout << "Digite a alteração que quer fazer no nome, se houver"<<endl;
+        cin>>nomealt;
+        arqsem<<nomealt<<endl;
+        cout << "Digite a alteração no número, se houver"<<endl;
+        cin>>numalt;
+        arqsem << numalt<<endl;
+        arqsem.close();
+
+
+        remove("Agenda2023.txt");
+        rename("novosemlinhas.txt","Agenda2023.txt");
+}
 
 
 
